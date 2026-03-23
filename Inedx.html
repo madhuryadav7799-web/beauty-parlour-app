@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlamBook - Beauty Parlour Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <div class="logo">
+        <i class="fas fa-spa"></i>
+        <span>GlamBook</span>
+    </div>
+    <nav>
+        <a href="#" class="nav-link active" data-page="dashboard">
+            <i class="fas fa-home"></i><span>Dashboard</span>
+        </a>
+        <a href="#" class="nav-link" data-page="appointments">
+            <i class="fas fa-calendar-alt"></i><span>Appointments</span>
+        </a>
+        <a href="#" class="nav-link" data-page="services">
+            <i class="fas fa-cut"></i><span>Services</span>
+        </a>
+        <a href="#" class="nav-link" data-page="customers">
+            <i class="fas fa-users"></i><span>Customers</span>
+        </a>
+        <a href="#" class="nav-link" data-page="staff">
+            <i class="fas fa-user-tie"></i><span>Staff</span>
+        </a>
+        <a href="#" class="nav-link" data-page="billing">
+            <i class="fas fa-file-invoice-dollar"></i><span>Billing</span>
+        </a>
+        <a href="#" class="nav-link" data-page="reports">
+            <i class="fas fa-chart-bar"></i><span>Reports</span>
+        </a>
+        <a href="#" class="nav-link" data-page="settings">
+            <i class="fas fa-cog"></i><span>Settings</span>
+        </a>
+    </nav>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Top Bar -->
+    <div class="topbar">
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search customers, services...">
+        </div>
+        <div class="topbar-right">
+            <div class="notification">
+                <i class="fas fa-bell"></i>
+                <span class="badge">5</span>
+            </div>
+            <div class="user-profile">
+                <div class="avatar">A</div>
+                <span>Admin</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div class="page active" id="dashboard">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Welcome back! Here's today's overview</p>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card purple">
+                <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                <div class="stat-info">
+                    <h3>12</h3>
+                    <p>Today's Bookings</p>
+                </div>
+            </div>
+            <div class="stat-card green">
+                <div class="stat-icon"><i class="fas fa-rupee-sign"></i></div>
+                <div class="stat-info">
+                    <h3>₹15,400</h3>
+                    <p>Today's Revenue</p>
+                </div>
+            </div>
+            <div class="stat-card blue">
+                <div class="stat-icon"><i class="fas fa-user-plus"></i></div>
+                <div class="stat-info">
+                    <h3>4</h3>
+                    <p>New Customers</p>
+                </div>
+            </div>
+            <div class="stat-card orange">
+                <div class="stat-icon"><i class="fas fa-star"></i></div>
+                <div class="stat-info">
+                    <h3>4.8</h3>
+                    <p>Average Rating</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Today's Appointments -->
+        <div class="card">
+            <div class="card-header">
+                <h2>Today's Appointments</h2>
+                <button class="btn btn-primary" onclick="openModal('appointmentModal')">
+                    <i class="fas fa-plus"></i> New Booking
+                </button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Service</th>
+                            <th>Time</th>
+                            <th>Staff</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appointmentTable">
+                        <!-- Filled by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="action-grid">
+                <button class="action-btn" onclick="openModal('appointmentModal')">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>New Booking</span>
+                </button>
+                <button class="action-btn" onclick="openModal('customerModal')">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Add Customer</span>
+                </button>
+                <button class="action-btn" onclick="openModal('serviceModal')">
+                    <i class="fas fa-concierge-bell"></i>
+                    <span>Add Service</span>
+                </button>
+                <button class="action-btn" onclick="openModal('billModal')">
+                    <i class="fas fa-receipt"></i>
+                    <span>Generate Bill</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointments Page -->
+    <div class="page" id="appointments">
+        <h1 class="page-title">Appointments</h1>
+        <p class="page-subtitle">Manage all your bookings</p>
+        <div class="card">
+            <div class="card-header">
+                <div class="filter-group">
+                    <button class="filter-btn active">All</button>
+                    <button class="filter-btn">Confirmed</button>
+                    <button class="filter-btn">Pending</button>
+                    <button class="filter-btn">Completed</button>
+                </div>
+                <button class="btn btn-primary" onclick="openModal('appointmentModal')">
+                    <i class="fas fa-plus"></i> New Booking
+                </button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Service</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Staff</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="allAppointmentsTable">
+                        <!-- Filled by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Page -->
+    <div class="page" id="services">
+        <h1 class="page-title">Services</h1>
+        <p class="page-subtitle">Manage your parlour services & pricing</p>
+        <div class="card">
+            <div class="card-header">
+                <h2>Service Menu</h2>
+                <button class="btn btn-primary" onclick="openModal('serviceModal')">
+                    <i class="fas fa-plus"></i> Add Service
+                </button>
+            </div>
+            <div class="services-grid" id="servicesGrid">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Customers Page -->
+    <div class="page" id="customers">
+        <h1 class="page-title">Customers</h1>
+        <p class="page-subtitle">Manage your customer database</p>
+        <div class="card">
+            <div class="card-header">
+                <h2>All Customers</h2>
+                <button class="btn btn-primary" onclick="openModal('customerModal')">
+                    <i class="fas fa-plus"></i> Add Customer
+                </button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Total Visits</th>
+                            <th>Total Spent</th>
+                            <th>Last Visit</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customerTable">
+                        <!-- Filled by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Staff Page -->
+    <div class="page" id="staff">
+        <h1 class="page-title">Staff</h1>
+        <p class="page-subtitle">Manage your team members</p>
+        <div class="staff-grid" id="staffGrid">
+            <!-- Filled by JS -->
+        </div>
+    </div>
+
+    <!-- Billing Page -->
+    <div class="page" id="billing">
+        <h1 class="page-title">Billing</h1>
+        <p class="page-subtitle">Generate invoices & manage payments</p>
+        <div class="card">
+            <div class="card-header">
+                <h2>Recent Invoices</h2>
+                <button class="btn btn-primary" onclick="openModal('billModal')">
+                    <i class="fas fa-plus"></i> New Invoice
+                </button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Customer</th>
+                            <th>Services</th>
+                            <th>Amount</th>
+                            <th>Payment</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="billingTable">
+                        <!-- Filled by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reports Page -->
+    <div class="page" id="reports">
+        <h1 class="page-title">Reports</h1>
+        <p class="page-subtitle">Business analytics & insights</p>
+        <div class="stats-grid">
+            <div class="stat-card purple">
+                <div class="stat-icon"><i class="fas fa-rupee-sign"></i></div>
+                <div class="stat-info">
+                    <h3>₹2,45,000</h3>
+                    <p>Monthly Revenue</p>
+                </div>
+            </div>
+            <div class="stat-card green">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <div class="stat-info">
+                    <h3>189</h3>
+                    <p>Total Customers</p>
+                </div>
+            </div>
+            <div class="stat-card blue">
+                <div class="stat-icon"><i class="fas fa-calendar"></i></div>
+                <div class="stat-info">
+                    <h3>312</h3>
+                    <p>Monthly Bookings</p>
+                </div>
+            </div>
+            <div class="stat-card orange">
+                <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                <div class="stat-info">
+                    <h3>Hair Spa</h3>
+                    <p>Top Service</p>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <h2>Popular Services</h2>
+            <div class="popular-services" id="popularServices">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Page -->
+    <div class="page" id="settings">
+        <h1 class="page-title">Settings</h1>
+        <p class="page-subtitle">Configure your parlour details</p>
+        <div class="card">
+            <h2>Parlour Information</h2>
+            <form class="settings-form">
+                <div class="form-group">
+                    <label>Parlour Name</label>
+                    <input type="text" value="GlamBook Beauty Salon">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text" value="+91 98765 43210">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" value="info@glambook.com">
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea>123, Main Street, City Center, New Delhi - 110001</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Working Hours</label>
+                    <input type="text" value="10:00 AM - 8:00 PM">
+                </div>
+                <button type="button" class="btn btn-primary" onclick="alert('Settings Saved!')">
+                    <i class="fas fa-save"></i> Save Settings
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- New Appointment Modal -->
+<div class="modal" id="appointmentModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>New Appointment</h2>
+            <span class="close-btn" onclick="closeModal('appointmentModal')">&times;</span>
+        </div>
+        <form onsubmit="addAppointment(event)">
+            <div class="form-group">
+                <label>Customer Name</label>
+                <input type="text" id="aptCustomer" required placeholder="Enter customer name">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="aptPhone" required placeholder="Enter phone number">
+            </div>
+            <div class="form-group">
+                <label>Service</label>
+                <select id="aptService" required>
+                    <option value="">Select Service</option>
+                    <option value="Hair Cut - ₹300">Hair Cut - ₹300</option>
+                    <option value="Hair Spa - ₹1500">Hair Spa - ₹1500</option>
+                    <option value="Facial - ₹800">Facial - ₹800</option>
+                    <option value="Manicure - ₹500">Manicure - ₹500</option>
+                    <option value="Pedicure - ₹600">Pedicure - ₹600</option>
+                    <option value="Bridal Makeup - ₹15000">Bridal Makeup - ₹15,000</option>
+                    <option value="Hair Color - ₹2000">Hair Color - ₹2,000</option>
+                    <option value="Threading - ₹100">Threading - ₹100</option>
+                    <option value="Waxing - ₹500">Waxing - ₹500</option>
+                    <option value="Keratin Treatment - ₹5000">Keratin Treatment - ₹5,000</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" id="aptDate" required>
+            </div>
+            <div class="form-group">
+                <label>Time</label>
+                <input type="time" id="aptTime" required>
+            </div>
+            <div class="form-group">
+                <label>Staff</label>
+                <select id="aptStaff" required>
+                    <option value="">Select Staff</option>
+                    <option value="Priya Sharma">Priya Sharma</option>
+                    <option value="Neha Gupta">Neha Gupta</option>
+                    <option value="Ritu Singh">Ritu Singh</option>
+                    <option value="Anjali Verma">Anjali Verma</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">
+                <i class="fas fa-check"></i> Book Appointment
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Add Customer Modal -->
+<div class="modal" id="customerModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Add Customer</h2>
+            <span class="close-btn" onclick="closeModal('customerModal')">&times;</span>
+        </div>
+        <form onsubmit="addCustomer(event)">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="custName" required placeholder="Enter full name">
+            </div>
+            <div class="form-group">
+                <label>Phone Number</label>
+                <input type="tel" id="custPhone" required placeholder="Enter phone number">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="custEmail" placeholder="Enter email (optional)">
+            </div>
+            <div class="form-group">
+                <label>Gender</label>
+                <select id="custGender">
+                    <option value="Female">Female</option>
+                    <option value="Male">Male</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Notes</label>
+                <textarea id="custNotes" placeholder="Any special notes..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">
+                <i class="fas fa-user-plus"></i> Add Customer
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Add Service Modal -->
+<div class="modal" id="serviceModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Add Service</h2>
+            <span class="close-btn" onclick="closeModal('serviceModal')">&times;</span>
+        </div>
+        <form onsubmit="addService(event)">
+            <div class="form-group">
+                <label>Service Name</label>
+                <input type="text" id="svcName" required placeholder="Enter service name">
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select id="svcCategory">
+                    <option value="💇 Hair">💇 Hair</option>
+                    <option value="💆 Skin">💆 Skin</option>
+                    <option value="💅 Nails">💅 Nails</option>
+                    <option value="💄 Makeup">💄 Makeup</option>
+                    <option value="🧖 Spa">🧖 Spa</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Duration (minutes)</label>
+                <input type="number" id="svcDuration" required placeholder="e.g. 45">
+            </div>
+            <div class="form-group">
+                <label>Price (₹)</label>
+                <input type="number" id="svcPrice" required placeholder="e.g. 500">
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">
+                <i class="fas fa-plus"></i> Add Service
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- Bill Modal -->
+<div class="modal" id="billModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Generate Invoice</h2>
+            <span class="close-btn" onclick="closeModal('billModal')">&times;</span>
+        </div>
+        <form onsubmit="generateBill(event)">
+            <div class="form-group">
+                <label>Customer Name</label>
+                <input type="text" id="billCustomer" required placeholder="Enter customer name">
+           
